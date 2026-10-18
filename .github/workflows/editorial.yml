@@ -15,6 +15,11 @@ jobs:
           python-version: '3.11'
       - name: Article checks
         run: python3 scripts/editorial_check.py
+      - name: Yomiyasu editorial diagnostics
+        run: |
+          for article in articles/*/article.md; do
+            python3 .agents/skills/yomiyasu/scripts/yomiyasu_lint.py --doc-type article "$article" >/dev/null
+          done
       - name: Skill scripts syntax
         run: |
           python3 - <<'PY'
