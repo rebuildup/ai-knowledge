@@ -1,9 +1,11 @@
 # ai-knowledge
 
-[AGENTS.md](AGENTS.md) と [執筆方針](docs/執筆方針.md) に従う。本文を作る前にwriting-discipline、自然さの確認にnatural-japanese、最終推敲にyomiyasuを使う。各スキルはプロジェクトに収録済み。
+[AGENTS.md](AGENTS.md)・[執筆方針](docs/執筆方針.md)に従う。先に読者へ必要な内容を選び、文章の自然さは後から推敲する。
 
-- `.claude/skills/`: Claude Code向けスキル入口。
-- `.agents/skills/`: 3スキルの実体と実行スクリプト。
-- `python3 scripts/editorial_check.py`: 機械で確認できる要件の検査。
+- `.claude/skills/`：skills CLIから導入したClaude Code用のスキル。
+- `.agents/skills/`：同CLIから導入したCodex用スキル。
+- `.opencode/skills/`：同CLIから導入したOpenCode用スキル。
+- `bash scripts/install-skills.sh`：導入・更新する場合のコマンド。
+- `python3 scripts/editorial_check.py`：記事構造の検査。
 
-スキルは文章の内容を検証しない。読者が答えを一目で得られるかを、人間視点で判定する。
+見出しと冒頭で何が分かるかを伝える。Lintが成功しても事実や日本語の品質が保証されたことにはならない。
