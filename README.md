@@ -38,9 +38,17 @@ AIについて**活用する・選ぶ・構築する・理解する・追う／�
 | [根拠・実験記録](evidence/README.md) | 検証条件、結果、再現手順 |
 | [スキーマ](schemas/README.md) | 記事型・検証項目の機械可読な定義（パイロット後に確定） |
 
-## まず5記事で検証する
+## 初期の記事5本（草稿）
 
-判断・実験・手順・解説・見解の各1記事から始める。記事数を目標にせず、読み手の目的・自己完結性・根拠・更新の運用が成立するか確認する。具体的な候補と受け入れ条件は[Issues](https://github.com/rebuildup/ai-knowledge/issues)で管理する。
+**[記事一覧と公開前の確認事項](articles/README.md)**。判断・実験・手順・解説・見解を1本ずつ作成し、実測や実画面を装わない模式図を付けた。価格・上限の最新値、比較実験、実機再現が未検証のものは未公開草稿として扱う。
+
+- [AI開発の月額予算](articles/ai-dev-budget/article.md)（判断）
+- [エージェント並列化の評価](articles/parallel-agents/article.md)（実験）
+- [開発環境の再現](articles/reproduce-ai-dev-env/article.md)（手順）
+- [MCPとCLIの使い分け](articles/mcp-or-cli/article.md)（解説）
+- [価格と利用上限の見方](articles/ai-tool-limits/article.md)（見解）
+
+記事を単に増やすことを目標にせず、品質・独立性・根拠・図版が成立するか確認する。[Issues](https://github.com/rebuildup/ai-knowledge/issues)で不足条件を追跡する。
 
 70本の候補とA〜Kの領域マップは**将来の候補・分類の材料**として扱う。詳細な内訳はこのリポジトリにまだ移植していないため、未確認の項目を仮に埋めない。
 
