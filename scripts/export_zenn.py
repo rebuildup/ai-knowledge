@@ -170,4 +170,3 @@ if __name__ == "__main__":
     except (ExportError, OSError, ValueError) as exc:
         print(f"Zenn export: {exc}", file=sys.stderr)
         sys.exit(1)
-}
