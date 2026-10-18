@@ -1,0 +1,56 @@
+name: Sync Zenn publishing branch
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ai-knowledge-zenn-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install image renderer
+        run: python -m pip install -r requirements-zenn.txt
+      - name: Validate source and export
+        env:
+          OUTPUT: ${{ runner.temp }}/ai-knowledge-zenn
+        run: |
+          python scripts/editorial_check.py
+          python -m unittest discover -s scripts -p 'test_export_zenn.py'
+          python scripts/export_zenn.py --output "$OUTPUT"
+          python scripts/export_zenn.py --output "$OUTPUT" --check
+      - name: Update Zenn branch
+        env:
+          OUTPUT: ${{ runner.temp }}/ai-knowledge-zenn
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin zenn >/dev/null; then
+            git fetch origin zenn
+            git switch -c zenn --track origin/zenn
+          else
+            git switch --orphan zenn
+          fi
+          git rm -rf --ignore-unmatch . >/dev/null
+          git clean -fdx >/dev/null
+          cp -a "$OUTPUT"/. .
+          printf '%s\n' '# Zenn publishing branch' '' 'Generated from main by GitHub Actions; do not edit this branch directly.' > README.md
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Zenn branch unchanged"
+            exit 0
+          fi
+          git commit -m "chore: sync Zenn content [skip ci]"
+          git push origin HEAD:refs/heads/zenn
