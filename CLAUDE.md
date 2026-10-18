@@ -4,7 +4,7 @@
 
 - `.claude/skills/`：skills CLIから導入したClaude Code用のスキル。
 - `.agents/skills/`：同CLIから導入したCodex用スキル。
-- `.opencode/skills/`：同CLIから導入したOpenCode用スキル。
+- OpenCodeはCodexと同じ`.agents/skills/`を利用する。
 - `bash scripts/install-skills.sh`：導入・更新する場合のコマンド。
 - `python3 scripts/editorial_check.py`：記事構造の検査。
 

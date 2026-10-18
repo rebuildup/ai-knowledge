@@ -22,7 +22,7 @@ npx --yes skills@latest add nanaism/yomiyasu \
 for name in writing-discipline natural-japanese yomiyasu; do
   test -f ".agents/skills/$name/SKILL.md" || { echo "Missing Codex skill: $name" >&2; exit 1; }
   test -f ".claude/skills/$name/SKILL.md" || { echo "Missing Claude skill: $name" >&2; exit 1; }
-  test -f ".opencode/skills/$name/SKILL.md" || { echo "Missing OpenCode skill: $name" >&2; exit 1; }
+  # OpenCode and Codex both use the shared .agents/skills/ project path.
 done
 test -f skills-lock.json || { echo 'skills-lock.json was not generated' >&2; exit 1; }
 
