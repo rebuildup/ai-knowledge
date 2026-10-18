@@ -1,0 +1,34 @@
+name: Editorial structure
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Article checks
+        run: python3 scripts/editorial_check.py
+      - name: Yomiyasu editorial diagnostics
+        run: |
+          for article in articles/*/article.md; do
+            python3 .agents/skills/yomiyasu/scripts/yomiyasu_lint.py --doc-type article "$article" >/dev/null
+          done
+      - name: Skill scripts syntax
+        run: |
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+          for base in [Path(".agents/skills/natural-japanese/scripts"), Path(".agents/skills/yomiyasu/scripts")]:
+              scripts = list(base.glob("*.py"))
+              assert scripts, base
+              for script in scripts:
+                  ast.parse(script.read_text(encoding="utf-8"), filename=str(script))
+          print("Skill scripts parsed")
+          PY

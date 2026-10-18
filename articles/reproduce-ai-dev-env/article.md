@@ -1,5 +1,5 @@
 ---
-title: miseとdotfilesでAIコーディング環境を再現する
+title: AI開発環境はpc-setupから構築し、dotfilesで設定を管理する
 slug: reproduce-ai-dev-env
 type: 手順
 entries: [構築, 活用]
@@ -12,44 +12,25 @@ sources:
   - https://github.com/rebuildup/dotfiles/blob/929ec8c03e31eeb07340aa1f2b9c396a7f653a92/README.md
 ---
 
-# miseとdotfilesでAIコーディング環境を再現する
+# AI開発環境はpc-setupから構築し、dotfilesで設定を管理する
 
-**Ubuntu/WSLとmacOSでは、`pc-setup`でマシン側を用意し、`dotfiles`でユーザー設定とエージェント起動経路を整える構成にできる。** 以下は公開されている設定の読み解きであり、この記事の手順を新しい端末で最後まで実行した検証記録ではない。
+公開されている[pc-setup](https://github.com/rebuildup/pc-setup)と[dotfiles](https://github.com/rebuildup/dotfiles)の構成では、Ubuntu/WSL・macOSの初期設定をpc-setupから始め、ユーザー設定をdotfilesに引き継ぐ。インストールと日常の設定を別々に管理できる。
 
-![pc-setupからdotfiles、Infisical、agentランチャーまでの構成](assets/environment.svg)
+## 端末へのインストールはpc-setupが担当する
 
-## どのリポジトリが何を所有するか
-
-| 役割 | 正本 | 変更する理由 |
-| --- | --- | --- |
-| マシンへのツール導入 | [pc-setup](https://github.com/rebuildup/pc-setup) | OS差、パッケージ導入、初期設定 |
-| HOME配下のユーザー設定 | [dotfiles](https://github.com/rebuildup/dotfiles) | Git設定、エージェント起動、シークレット注入 |
-| 秘密情報 | Infisical | 認証情報の登録・更新・ローテーション |
-
-マシンの初期設定と、利用者が日常的に変更する設定を分離すると、環境差が生じても両方をまとめて書き換える必要が減る。ここでの分離は公開されている設定ファイルの責務から確認できる。
-
-## 事前確認
-
-- OSが対象のUbuntu/WSLまたはmacOSである。
-- GitHub認証やInfisicalログインに必要な権限を持つ。
-- 運用するリポジトリと導入スクリプトを**実行前に確認**する。
-- 設定を上書きしないか、既存のdotfilesがある場合はバックアップ・衝突判定を確認する。
-
-## 1. マシン側を用意する
-
-[pc-setupのREADME](https://github.com/rebuildup/pc-setup/blob/783359624ad80dee80ae92d49de4f5ee12709241/README.md)には、UbuntuとmacOSで共有するブートストラップ入口が示されている。
+[pc-setupのREADME（確認した版）](https://github.com/rebuildup/pc-setup/blob/783359624ad80dee80ae92d49de4f5ee12709241/README.md)に、Ubuntu/WSLとmacOS向けの共通の入口がある。
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/rebuildup/pc-setup/main/bootstrap.sh | bash
 ```
 
-これは**公開元の手順の引用**であり、ここでは実行していない。ネットワーク上のスクリプトをシェルへ直接渡す方式なので、実運用では取得した内容・コミット・権限を確認してから実行する。環境ごとの差や詳細は[macOS用](https://github.com/rebuildup/pc-setup/tree/main/platforms/macos)、[Ubuntu/WSL用](https://github.com/rebuildup/pc-setup/tree/main/platforms/ubuntu-wsl)の資料を確認する。
+このコマンドは公開手順の引用であり、この記事のために新しい端末で実行したわけではない。ネットワークから取得したスクリプトをそのまま実行する形式なので、**実行前に取得内容・更新履歴・既存環境への影響を確認する**。
 
-## 2. ユーザー設定を読み込む
+Windows側で直接セットアップする場合は、PowerShell用の別スクリプトが用意されている。OS別の詳細は公式ではなく**この構成の実装元**である[pc-setup](https://github.com/rebuildup/pc-setup)を参照する。
 
-公開されている[dotfilesのREADME](https://github.com/rebuildup/dotfiles/blob/929ec8c03e31eeb07340aa1f2b9c396a7f653a92/README.md)では、`pc-setup`から`~/.dotfiles`への設定引継ぎを想定する。
+## ユーザー設定の検査はdotfilesが担当する
 
-新規導入後の確認例：
+pc-setupが引き継ぐ[dotfilesのREADME（確認した版）](https://github.com/rebuildup/dotfiles/blob/929ec8c03e31eeb07340aa1f2b9c396a7f653a92/README.md)には、導入後の確認コマンドがある。
 
 ```bash
 cd ~/.dotfiles
@@ -58,11 +39,11 @@ cd ~/.dotfiles
 git submodule status --recursive
 ```
 
-設定が見つかることと認証が成功することは別なので、**設定の検査と秘密情報へのアクセス確認を分ける**。
+`script/check`は設定の整合性、`secrets-doctor`は秘密情報管理との接続を確認する。**設定が正しく配置されたことと、認証できることは別**だ。秘密情報はリポジトリに書き込まず、Infisicalのログインや権限で扱う。
 
-## 3. エージェントを起動する
+## エージェントは使うプロバイダを明示して起動できる
 
-`dotfiles`の`agent`ランチャーは、利用するハーネスとプロバイダを明示する方式を採る。例えば[公開ドキュメント](https://github.com/rebuildup/dotfiles/blob/929ec8c03e31eeb07340aa1f2b9c396a7f653a92/docs/agent-launcher.md)には次の使い方がある。
+[agentランチャーの説明](https://github.com/rebuildup/dotfiles/blob/929ec8c03e31eeb07340aa1f2b9c396a7f653a92/docs/agent-launcher.md)では、利用する経路を一覧し、設定を検査してから起動できる。
 
 ```bash
 agent list
@@ -70,10 +51,8 @@ agent check
 agent claude
 ```
 
-`agent claude`のようにプロバイダを省略した場合はネイティブ起動経路になる。**プロバイダ名を省略した状態で勝手にAPIキーを切り替える方式ではない**。対応するルート、モデル、引数については当該文書を参照する。
+`agent claude`はプロバイダの指定がないため、ネイティブの起動経路を使う。環境ごとに選びたいモデルや認証方法が違う場合は、[説明されているルート指定](https://github.com/rebuildup/dotfiles/blob/929ec8c03e31eeb07340aa1f2b9c396a7f653a92/docs/agent-launcher.md)を確認する。
 
-## この手順だけでは確定できないこと
+## 新規端末での再現テストは未実施
 
-認証先のセットアップ、導入した実機のOSバージョン、GUIアプリの権限設定、使用プロバイダの課金状態は公開ソースだけでは保証できない。**新しい端末でのE2E実行とスクリーンショットの確認**が済むまでは、この記事を再現完了としない。
-
-*制作状況：公開設定から作成した草稿。実機での手順検証は未実施。関連Issue：[#4](https://github.com/rebuildup/ai-knowledge/issues/4)。*
+この手順は公開ソースから確認できる範囲を整理したものだ。新しい端末で最後まで実行し、実画面・エラー例・インストール後の動作を確認した記録はまだない。**再現完了の手順として公開する前に**、OSの版、認証、必要な権限を明示した実機テストが必要になる。

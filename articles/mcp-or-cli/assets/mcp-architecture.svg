@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 425" role="img" aria-labelledby="t d">
+<title id="t">MCP HostとClient・Serverの接続</title>
+<desc id="d">1つのAIアプリHost内にMCP Clientが2つあり、1つめはstdioでローカルServer、2つめはHTTPでリモートServerへ、個別に1対1接続する。</desc>
+<rect width="980" height="425" rx="18" fill="#f8fafc"/>
+<text x="30" y="38" font-size="23" font-weight="700" font-family="sans-serif" fill="#12263b">MCPの接続単位は「Client 1つにつきServer 1つ」</text>
+<rect x="30" y="71" width="345" height="296" rx="14" fill="#e9f1fb" stroke="#557eaf" stroke-width="2"/>
+<text x="48" y="108" font-size="22" font-weight="700" font-family="sans-serif" fill="#163a62">Host / AIアプリ</text>
+<text x="49" y="132" font-size="16" font-family="sans-serif" fill="#3c5978">接続と権限を管理</text>
+<rect x="52" y="161" width="290" height="70" rx="10" fill="white" stroke="#557eaf" stroke-width="1.5"/>
+<text x="75" y="191" font-size="22" font-weight="600" font-family="sans-serif" fill="#152d44">MCP Client A</text>
+<text x="75" y="214" font-size="15" font-family="sans-serif" fill="#4c647b">ローカル接続の担当</text>
+<rect x="52" y="258" width="290" height="70" rx="10" fill="white" stroke="#557eaf" stroke-width="1.5"/>
+<text x="75" y="288" font-size="22" font-weight="600" font-family="sans-serif" fill="#152d44">MCP Client B</text>
+<text x="75" y="311" font-size="15" font-family="sans-serif" fill="#4c647b">リモート接続の担当</text>
+<rect x="595" y="151" width="347" height="88" rx="10" fill="#fff" stroke="#298269" stroke-width="2"/>
+<rect x="595" y="252" width="347" height="88" rx="10" fill="#fff" stroke="#b4763e" stroke-width="2"/>
+<text x="614" y="184" font-size="21" font-weight="600" font-family="sans-serif" fill="#1d614f">Server A / ローカル</text>
+<text x="614" y="213" font-size="16" font-family="sans-serif" fill="#50657a">ツール・リソース・プロンプト</text>
+<text x="614" y="285" font-size="21" font-weight="600" font-family="sans-serif" fill="#915322">Server B / リモート</text>
+<text x="614" y="314" font-size="16" font-family="sans-serif" fill="#50657a">ツール・リソース・プロンプト</text>
+<path d="M343 196 H594" stroke="#298269" stroke-width="3" fill="none"/>
+<path d="M581 187 L594 196 L581 205" fill="none" stroke="#298269" stroke-width="3" stroke-linecap="round"/>
+<path d="M343 293 H594" stroke="#b4763e" stroke-width="3" fill="none"/>
+<path d="M581 284 L594 293 L581 302" fill="none" stroke="#b4763e" stroke-width="3" stroke-linecap="round"/>
+<rect x="409" y="166" width="115" height="30" rx="8" fill="#e8f3ee"/>
+<text x="426" y="188" font-size="17" font-family="sans-serif" fill="#246d53">stdio · 1:1</text>
+<rect x="405" y="261" width="150" height="30" rx="8" fill="#fff1e5"/>
+<text x="418" y="283" font-size="16" font-family="sans-serif" fill="#905527">HTTP · 1:1</text>
+<text x="30" y="400" font-size="14" font-family="sans-serif" fill="#485a6a">出典: Model Context Protocol 公式アーキテクチャ (2026-07-28版) を基に再構成</text>
+</svg>
