@@ -52,7 +52,11 @@ def read_article(path: Path) -> tuple[dict[str, str], str]:
 
 def render_article(source: Path, info: dict, meta: dict, expected: dict[str, bytes]) -> str:
     slug = meta["slug"]
-    body = info["body"]
+    body = info["body"].lstrip("\n")
+    first_line, separator, remainder = body.partition("\n")
+    # Zenn renders the front-matter title; do not duplicate the source H1.
+    if first_line == "# " + info["title"]:
+        body = remainder.lstrip("\n")
 
     def substitute(match: re.Match[str]) -> str:
         ref = match.group(2)
