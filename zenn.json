@@ -1,0 +1,7 @@
+{
+  "ai-dev-budget": {"slug": "ai-dev-budget", "type": "idea", "emoji": "💰", "topics": ["ai", "devtools"]},
+  "ai-tool-limits": {"slug": "ai-tool-limits", "type": "idea", "emoji": "📊", "topics": ["ai", "devtools"]},
+  "mcp-or-cli": {"slug": "mcp-or-cli-guide", "type": "tech", "emoji": "🔌", "topics": ["ai", "mcp", "cli"]},
+  "parallel-agents": {"slug": "parallel-agents", "type": "tech", "emoji": "🔀", "topics": ["ai", "agent"]},
+  "reproduce-ai-dev-env": {"slug": "reproduce-ai-dev-env", "type": "tech", "emoji": "🛠️", "topics": ["ai", "devtools"]}
+}

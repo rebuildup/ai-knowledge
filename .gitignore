@@ -1,3 +1,5 @@
 .yomiyasu/
 __pycache__/
 *.pyc
+
+.zenn-export/
