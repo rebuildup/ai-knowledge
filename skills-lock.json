@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "natural-japanese": {
+      "source": "rebuildup/writing-skills",
+      "sourceType": "github",
+      "skillPath": "skills/natural-japanese/SKILL.md",
+      "computedHash": "613152c6b68b50290d0eb04b99ffd5d884c478b0e5fd0420b69ea5393fac1f47"
+    },
+    "writing-discipline": {
+      "source": "rebuildup/writing-skills",
+      "sourceType": "github",
+      "skillPath": "skills/writing-discipline/SKILL.md",
+      "computedHash": "66d9caea0c3a9c17d40c7e3fe45c9c08fdf8dcc3ae51fb65f47a9dffa63fa08f"
+    },
+    "yomiyasu": {
+      "source": "nanaism/yomiyasu",
+      "sourceType": "github",
+      "skillPath": "skills/yomiyasu/SKILL.md",
+      "computedHash": "6a9c757bf1b6a7a33a7a4a5fa5dba58570f85a42d59f24f646693e032ef25a38"
+    }
+  }
+}
