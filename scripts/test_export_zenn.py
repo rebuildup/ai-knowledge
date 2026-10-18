@@ -42,6 +42,7 @@ published_at: null
         self.assertEqual(run(self.root, out, False), 0)
         result = (out / "articles/sample-source-article.md").read_text()
         self.assertIn("published: false", result)
+        self.assertNotIn("\n# サンプル\n", result)
         self.assertIn('title: "サンプル"', result)
         self.assertIn("/images/sample-source-article/figure.png", result)
         self.assertIn("```md\n![](assets/external.svg)\n```", result)
