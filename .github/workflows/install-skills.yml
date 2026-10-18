@@ -39,7 +39,8 @@ jobs:
       - name: Commit CLI-managed installation to PR
         run: |
           git add -A
-          git diff --cached --check
+          # Upstream skill files include trailing blank lines; do not rewrite third-party content.
+          git -c core.whitespace=blank-at-eol,space-before-tab diff --cached --check
           if git diff --cached --quiet; then
             echo "No changes"
             exit 0
